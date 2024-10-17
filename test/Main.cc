@@ -6,6 +6,15 @@
 #include <iostream>
 #include <vector>
 
+#ifndef NDEBUG
+#define DEBUG(x)                                                               \
+    do {                                                                       \
+        x;                                                                     \
+    } while (0)
+#else
+#define DEBUG(x)
+#endif
+
 using namespace std;
 
 void inputGraph(uint32_t &V, uint32_t &E, vector<Node> &nodes,
@@ -48,18 +57,16 @@ void inputGraph(uint32_t &V, uint32_t &E, vector<Node> &nodes,
 
 void printGraph(const uint32_t &V, const uint32_t &E, const vector<Node> &nodes,
                 const vector<Edge> &edges, std::string filename = "graph.gv") {
-    ofstream out(filename);
-    out << "digraph G {\n";
-    for (uint32_t i = 1; i <= V; i++) {
-        Node n = nodes[i];
-        out << "    " << n.getId() << ";\n";
-    }
-    for (uint32_t i = 1; i <= E; i++) {
-        Edge e = edges[i];
-        out << "    " << e.getSrc().value << " -> " << e.getDest().value
-            << " [label=\"e" << e.getId() << "\"];\n";
-    }
-    out << "}\n";
+    DEBUG(
+        ofstream out(filename);
+        out << "digraph G {\n"; for (uint32_t i = 1; i <= V; i++) {
+            Node n = nodes[i];
+            out << "    " << n.getId() << ";\n";
+        } for (uint32_t i = 1; i <= E; i++) {
+            Edge e = edges[i];
+            out << "    " << e.getSrc().value << " -> " << e.getDest().value
+                << " [label=\"e" << e.getId() << "\"];\n";
+        } out << "}\n";);
 }
 
 int main() {
